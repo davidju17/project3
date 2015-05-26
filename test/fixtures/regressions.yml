@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  coeffs: 1.5
+  reg_type: MyString
+  probability: 1.5
+
+two:
+  coeffs: 1.5
+  reg_type: MyString
+  probability: 1.5
