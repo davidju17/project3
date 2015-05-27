@@ -7,9 +7,13 @@ Rails.application.routes.draw do
 
   get 'prediction/retrieve_prediction'
 
-  get '/weather/prediction/:lat/:long/:period' => 'prediction#by_lat_long'
-
+  get '/weather/prediction/:lat/:long/:period' => 'prediction#by_lat_long', constraints: { lat: /[^\/]+/, long: /[^\/]+/ }
   get '/weather/prediction/:post_code/:period' => 'prediction#by_postcode'
+
+  get '/weather/data/:location_id/:date' => 'data#by_location_id'
+  get '/weather/data/:post_code/:date' => 'data#by_postcode'
+
+  get '/weather/locations' => 'location#retrieve_locations'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

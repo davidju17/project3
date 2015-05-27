@@ -2,11 +2,6 @@ require 'statsample' # To get linear regression coefficients readily
 require 'matrix'
 
 class Regression
-	def initialize(xs, ys)
-		@xs, @ys = xs, ys
-		@n = @xs.length # N number of pairs of (X,Y) points
-	end
-
 	def get_linear_coeffs
 		regress = Statsample::Regression::Simple.new_from_vectors(@xs.to_scale, @ys.to_scale)
 
@@ -66,7 +61,14 @@ class Regression
 			y_regressed = get_y_regressed(type, degree)
 
 			sse = (0...@n).reduce(0) {|sum, i| sum + ((@ys[i] - y_regressed[i])**2)} # Sum of square error
-			return Math::sqrt(sse / @n)
+			
+			standard_error = Math::sqrt(sse / @n)
+
+			if standard_error.nan?
+				return Float::INFINITY
+			else
+				return standard_error
+			end
 
 		rescue Math::DomainError 	# If the regression cannot be performed,
 			return Float::INFINITY 	# the error will be infinite so it can be compared with other regressions errors
@@ -145,12 +147,14 @@ class Regression
 				['linear', 'polynomial', 'logarithmic', 'exponential'].each do |kind|
 					errors[kind] = standard_error(kind)
 				end
-
+				
 				return evaluate(errors.key(errors.values.min))
 			end	
 
 			info[:type] = type
+			info[:degree] = best_degree
 			info[:probability] = get_R2(type).round(4)
+			info[:samples_size] = @n
 			return info
 
 		rescue Math::DomainError
@@ -163,6 +167,6 @@ class Regression
 		@ys = data
 		@n = data.length
 
-		return evaluate(best_fit)
+		return evaluate('best_fit')
 	end
 end 
