@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  lat: 1.5
+  long: 1.5
+  location_id: MyString
+  last_update: 2015-05-25
+  postcode_id: 
+
+two:
+  lat: 1.5
+  long: 1.5
+  location_id: MyString
+  last_update: 2015-05-25
+  postcode_id: 
